@@ -8,20 +8,21 @@ const Contact = () => {
         email: "",
         address: "",
         message: "",
+        gender: "",
     });
 
     let name, value;
-    const postUserData = (event) => {
-        name = event.target.name;
-        value = event.target.value;
+    const postUserData = (e) => {
+        name = e.target.name;
+        value = e.target.value;
 
         setUserData({ ...userData, [name]: value });
     };
     const submitData = async (event) => {
         event.preventDefault();
-        const { firstName, lastName, phone, email, address, message } = userData;
+        const { firstName, lastName, phone, email, address, message, gender } = userData;
 
-        if (firstName && lastName && phone && email && address && message) {
+        if (firstName && lastName && phone && email && address && message && gender) {
             const res = fetch(
                 "https://react-simple-form-default-rtdb.firebaseio.com/userDataRecords.json",
                 {
@@ -36,6 +37,8 @@ const Contact = () => {
                         email,
                         address,
                         message,
+                        gender,
+
                     }),
                 }
             );
@@ -48,10 +51,10 @@ const Contact = () => {
                     email: "",
                     address: "",
                     message: "",
+                    gender: "",
+
                 });
                 alert("Data Stored");
-            } else {
-                alert("plz fill the data");
             }
         } else {
             alert("plz fill the data");
@@ -142,11 +145,19 @@ const Contact = () => {
                                                 />
                                             </div>
                                         </div>
-
-
+                                        <div>
+                                            <label>
+                                                Gender:
+                                                <select value={userData.gender} onChange={postUserData} name="gender">
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </label>
+                                        </div>
                                         <button
                                             type="submit"
-                                            className="btn btn-style w-100"
+                                            className="btn btn-style w-100 btn-success"
                                             onClick={submitData}>
                                             Submit
                                         </button>
